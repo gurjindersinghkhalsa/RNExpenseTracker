@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {Text} from 'react-native';
+import {Image} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -15,22 +15,66 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ManageExpenses from './Screens/ManageExpenses';
 import AllExpenses from './Screens/AllExpenses';
 import RecentExpense from './Screens/RecentExpenses';
-const Stack = createNativeStackNavigator();
-const BTab = createBottomTabNavigator();
+import GlobalSytle from './constants/style';
 
-function MainExpenseComponent() {
-  return <BTab.Navigator>
-      <BTab.Screen name='All Expense' component={AllExpenses}/>
-      <BTab.Screen name='Recent Expense' component={RecentExpense}/>
-  </BTab.Navigator>
+const Stack = createNativeStackNavigator();
+const BottomTab = createBottomTabNavigator();
+
+function ExpenseOverView() {
+  return (
+    <BottomTab.Navigator
+      screenOptions={{
+        headerStyle: {backgroundColor: GlobalSytle.colors.blue},
+        headerTintColor: 'white',
+        tabBarStyle: {
+          backgroundColor: GlobalSytle.colors.blue,
+        },
+        tabBarActiveTintColor: 'white',
+      }}>
+      <BottomTab.Screen
+        name="RecentExpense"
+        component={RecentExpense}
+        options={{
+          title: 'Recent Expenses',
+          tabBarLabel: 'Recent',
+          tabBarIcon: ({color, size}) => (
+            <Image
+              source={require('./Assests/all.png')}
+              style={{width: 30, height: 30}}
+            />
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="AllExpense"
+        component={AllExpenses}
+        options={{
+          title: 'All Expenses',
+          tabBarLabel: 'All Expenses',
+          tabBarIcon: ({color, size}) => (
+            <Image
+              source={require('./Assests/recent.png')}
+              style={{width: 30, height: 30}}
+            />
+          ),
+        }}
+      />
+    </BottomTab.Navigator>
+  );
 }
 function App() {
-  return <NavigationContainer>
-    <Stack.Navigator>
-    <Stack.Screen name='ExpensesOverview' component={MainExpenseComponent}/>
-      <Stack.Screen name='ManageExpenses' component={ManageExpenses}/>
-    </Stack.Navigator>
-  </NavigationContainer>
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="ExpenseOverView"
+          component={ExpenseOverView}
+          options={{headerShown: false}} // to hide header
+        />
+        <Stack.Screen name="ManageExpense" component={ManageExpenses} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
 
 export default App;

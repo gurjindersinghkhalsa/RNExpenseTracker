@@ -16,11 +16,15 @@ import ManageExpenses from './Screens/ManageExpenses';
 import AllExpenses from './Screens/AllExpenses';
 import RecentExpense from './Screens/RecentExpenses';
 import GlobalSytle from './constants/style';
+import IconButton from './Components/UI/IconButton';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
 function ExpenseOverView() {
+  function showExpenseOverview() {
+    console.log('showExpense');
+  }
   return (
     <BottomTab.Navigator
       screenOptions={{
@@ -30,6 +34,13 @@ function ExpenseOverView() {
           backgroundColor: GlobalSytle.colors.blue,
         },
         tabBarActiveTintColor: 'white',
+        headerRight: tintColor => (
+          <IconButton
+            IconName={'add.png'}
+            color={tintColor}
+            onPress={showExpenseOverview}
+          />
+        ),
       }}>
       <BottomTab.Screen
         name="RecentExpense"

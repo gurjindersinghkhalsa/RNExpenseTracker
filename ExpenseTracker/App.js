@@ -17,17 +17,15 @@ import AllExpenses from './Screens/AllExpenses';
 import RecentExpense from './Screens/RecentExpenses';
 import GlobalSytle from './constants/style';
 import IconButton from './Components/UI/IconButton';
+import ExpenseContextProvider from './store/expenses-context';
 
 const Stack = createNativeStackNavigator();
 const BottomTab = createBottomTabNavigator();
 
 function ExpenseOverView() {
-  function showExpenseOverview() {
-    console.log('showExpense');
-  }
   return (
     <BottomTab.Navigator
-      screenOptions={{
+      screenOptions={({navigation}) => ({
         headerStyle: {backgroundColor: GlobalSytle.colors.blue},
         headerTintColor: 'white',
         tabBarStyle: {
@@ -38,10 +36,12 @@ function ExpenseOverView() {
           <IconButton
             IconName={'add.png'}
             color={tintColor}
-            onPress={showExpenseOverview}
+            onPress={() => {
+              navigation.navigate('ManageExpense');
+            }}
           />
         ),
-      }}>
+      })}>
       <BottomTab.Screen
         name="RecentExpense"
         component={RecentExpense}
@@ -75,16 +75,29 @@ function ExpenseOverView() {
 }
 function App() {
   return (
+    <ExpenseContextProvider>
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {backgroundColor: GlobalSytle.colors.blue},
+          headerTintColor: 'white',
+        }}>
         <Stack.Screen
           name="ExpenseOverView"
           component={ExpenseOverView}
           options={{headerShown: false}} // to hide header
         />
-        <Stack.Screen name="ManageExpense" component={ManageExpenses} />
+        <Stack.Screen
+          name="ManageExpense"
+          component={ManageExpenses}
+          options={{
+            title: 'Manage Expenes',
+            presentation: 'modal',
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
+    </ExpenseContextProvider>
   );
 }
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 export default GlobalStyle = {
   colors: {
     blue: '#00008B',
@@ -8,4 +9,4 @@ export default GlobalStyle = {
     orangeRed: '#FF4500',
     goldenRod: '#DAA520',
   },
-}
+};

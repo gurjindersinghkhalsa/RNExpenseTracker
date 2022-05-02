@@ -22,18 +22,18 @@ function ManageExpenses({route, navigation}) {
   }
   function updateExpenseHandler() {
     if (isEditing) {
-      console.log('do update')
+      console.log('do update');
       expenseCntx.updateExpense(editedExpenseId, {
         description: 'Updated!!!',
         amount: 10.0,
         date: new Date('2022-05-02'),
-      })
+      });
     } else {
       expenseCntx.addExpense({
         description: 'Test!!!',
         amount: 10.0,
         date: new Date('2022-05-02'),
-      })
+      });
     }
     navigation.goBack();
   }

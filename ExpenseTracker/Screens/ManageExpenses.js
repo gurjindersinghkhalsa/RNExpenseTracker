@@ -4,6 +4,7 @@ import {Text, View, Pressable, StyleSheet} from 'react-native';
 import GlobalColor from '../constants/style';
 import Button from '../Components/UI/Button';
 import {ExpenseContext} from '../store/expenses-context';
+import ExpenseForm from '../Components/ManageExpense/ExpenseForm';
 
 function ManageExpenses({route, navigation}) {
   const expenseCntx = useContext(ExpenseContext);
@@ -42,6 +43,7 @@ function ManageExpenses({route, navigation}) {
   }
   return (
     <View style={styles.root}>
+      <ExpenseForm/>
       <View style={styles.buttonContiner}>
         <Button
           style={styles.button}

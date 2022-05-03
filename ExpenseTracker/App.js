@@ -76,27 +76,27 @@ function ExpenseOverView() {
 function App() {
   return (
     <ExpenseContextProvider>
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: {backgroundColor: GlobalSytle.colors.blue},
-          headerTintColor: 'white',
-        }}>
-        <Stack.Screen
-          name="ExpenseOverView"
-          component={ExpenseOverView}
-          options={{headerShown: false}} // to hide header
-        />
-        <Stack.Screen
-          name="ManageExpense"
-          component={ManageExpenses}
-          options={{
-            title: 'Manage Expenes',
-            presentation: 'modal',
-          }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: {backgroundColor: GlobalSytle.colors.blue},
+            headerTintColor: 'white',
+          }}>
+          <Stack.Screen
+            name="ExpenseOverView"
+            component={ExpenseOverView}
+            options={{headerShown: false}} // to hide header
+          />
+          <Stack.Screen
+            name="ManageExpense"
+            component={ManageExpenses}
+            options={{
+              title: 'Manage Expenes',
+              presentation: 'modal',
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     </ExpenseContextProvider>
   );
 }

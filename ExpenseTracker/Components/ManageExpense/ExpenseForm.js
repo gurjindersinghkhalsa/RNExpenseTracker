@@ -4,7 +4,7 @@ import GlobalColor from '../../constants/style';
 import Input from './Input';
 import Button from '../UI/Button';
 
-function ExpenseForm({submitButtonLabel ,onCancel, onSubmit}) {
+function ExpenseForm({submitButtonLabel, onCancel, onSubmit}) {
   const [inputValues, setInputValues] = useState({
     amount: '',
     date: '',
@@ -13,14 +13,22 @@ function ExpenseForm({submitButtonLabel ,onCancel, onSubmit}) {
 
   function inputChangeHandler(inputIdentifier, enteredValue) {
     //setInputValues(()=>{}) // func form to update state on previous state
-    setInputValues(currentInputValues => { //currentInputValues obj we will retrun update currentInputValues obj
+    setInputValues(currentInputValues => {
+      //currentInputValues obj we will retrun update currentInputValues obj
       return {
         ...currentInputValues, // spread all input values
         [inputIdentifier]: enteredValue, // override one value we want to change dynamically
       };
     });
   }
-  function submitHandler(){}
+  function submitHandler() {
+    const expenseData = {
+      amount: +inputValues.amount, // + convert string to number
+      date: new Date(inputValues.date),
+      description: inputValues.description,
+    };
+    onSubmit(expenseData)
+  }
   return (
     <View style={styles.form}>
       <Text style={styles.title}>Your Expense</Text>
@@ -57,11 +65,9 @@ function ExpenseForm({submitButtonLabel ,onCancel, onSubmit}) {
           //   autocorrect: false,
         }}
       />
-        <View style={styles.buttonContiner}>
-        <Button
-          style={styles.button}
-          mode={'flat'}
-          onPress={onCancel}>
+      
+      <View style={styles.buttonContiner}>
+        <Button style={styles.button} mode={'flat'} onPress={onCancel}>
           Cancel
         </Button>
         <Button style={styles.button} onPress={submitHandler}>

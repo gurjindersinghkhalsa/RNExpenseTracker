@@ -43,18 +43,10 @@ function ManageExpenses({route, navigation}) {
   }
   return (
     <View style={styles.root}>
-      <ExpenseForm/>
-      <View style={styles.buttonContiner}>
-        <Button
-          style={styles.button}
-          mode={'flat'}
-          onPress={cancelExpenseHandler}>
-          Cancel
-        </Button>
-        <Button style={styles.button} onPress={updateExpenseHandler}>
-          {isEditing ? 'Update' : 'Add'}
-        </Button>
-      </View>
+      <ExpenseForm
+        submitButtonLabel={isEditing ? 'Update' : 'Add'}
+        onCancel={cancelExpenseHandler}
+      />
       {isEditing && (
         <Pressable onPress={deleteExpenseHander}>
           <View style={styles.trash}>
@@ -68,15 +60,6 @@ function ManageExpenses({route, navigation}) {
 
 export default ManageExpenses;
 const styles = StyleSheet.create({
-  buttonContiner: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    minWidth: 140,
-    marginHorizontal: 15,
-  },
   root: {
     flex: 1,
     backgroundColor: GlobalColor.colors.wheat,

@@ -4,11 +4,11 @@ import GlobalColor from '../../constants/style';
 import Input from './Input';
 import Button from '../UI/Button';
 
-function ExpenseForm({submitButtonLabel, onCancel, onSubmit}) {
+function ExpenseForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
   const [inputValues, setInputValues] = useState({
-    amount: '',
-    date: '',
-    description: '',
+    amount: defaultValues ? defaultValues.amount.toString() : '',
+    date: defaultValues ? defaultValues.date.toISOString().slice(0,10) : '',
+    description: defaultValues ? defaultValues.description : ''
   });
 
   function inputChangeHandler(inputIdentifier, enteredValue) {
@@ -23,11 +23,11 @@ function ExpenseForm({submitButtonLabel, onCancel, onSubmit}) {
   }
   function submitHandler() {
     const expenseData = {
-      amount: +inputValues.amount, // + convert string to number
+      amount: +inputValues.amount, // + for convert string to number
       date: new Date(inputValues.date),
       description: inputValues.description,
     };
-    onSubmit(expenseData)
+    onSubmit(expenseData);
   }
   return (
     <View style={styles.form}>

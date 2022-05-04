@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Alert} from 'react-native';
 import GlobalColor from '../../constants/style';
 import Input from './Input';
 import Button from '../UI/Button';
@@ -7,8 +7,8 @@ import Button from '../UI/Button';
 function ExpenseForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
   const [inputValues, setInputValues] = useState({
     amount: defaultValues ? defaultValues.amount.toString() : '',
-    date: defaultValues ? defaultValues.date.toISOString().slice(0,10) : '',
-    description: defaultValues ? defaultValues.description : ''
+    date: defaultValues ? defaultValues.date.toISOString().slice(0, 10) : '',
+    description: defaultValues ? defaultValues.description : '',
   });
 
   function inputChangeHandler(inputIdentifier, enteredValue) {
@@ -27,6 +27,13 @@ function ExpenseForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
       date: new Date(inputValues.date),
       description: inputValues.description,
     };
+    const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0;
+    const dateIsValid = expenseData.date.toString() !== 'Invalid Date';
+    const descIsValid = expenseData.description.trim().length > 0;
+    if (!amountIsValid || !dateIsValid || !descIsValid) {
+      Alert.alert('Invalid Inputs', 'Please check your input values');
+      return;
+    }
     onSubmit(expenseData);
   }
   return (
@@ -65,7 +72,7 @@ function ExpenseForm({submitButtonLabel, onCancel, onSubmit, defaultValues}) {
           //   autocorrect: false,
         }}
       />
-      
+
       <View style={styles.buttonContiner}>
         <Button style={styles.button} mode={'flat'} onPress={onCancel}>
           Cancel

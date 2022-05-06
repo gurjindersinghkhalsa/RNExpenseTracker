@@ -12,7 +12,7 @@ function ExpenseItem({description, amount, date, id}) {
     });
   }
   return (
-    <View key={id}>
+    <View>
       <Pressable
         onPress={expensePressHandler}
         style={({pressed}) => pressed && style.pressed}>

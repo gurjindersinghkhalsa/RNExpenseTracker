@@ -23,19 +23,28 @@ function ManageExpenses({route, navigation}) {
 
   async function deleteExpenseHander() {
     setUpdating(true);
-    await deleteExpense(editedExpenseId);
-    expenseCntx.deleteExpense({id: editedExpenseId});
+    try {
+      await deleteExpense(editedExpenseId);
+      expenseCntx.deleteExpense({id: editedExpenseId});
+    } catch (error) {
+      alert('Please Try Again');
+    }
+    setUpdating(false);
     navigation.goBack();
   }
   async function confirmHandler(expenseData) {
     setUpdating(true);
-    if (isEditing) {
-      console.log('do update');
-      expenseCntx.updateExpense(editedExpenseId, expenseData);
-      await updateExpense(editedExpenseId, expenseData);
-    } else {
-      const id = await storeExpense(expenseData);
-      expenseCntx.addExpense({...expenseData, id: id});
+    try {
+      if (isEditing) {
+        console.log('do update');
+        expenseCntx.updateExpense(editedExpenseId, expenseData);
+        await updateExpense(editedExpenseId, expenseData);
+      } else {
+        const id = await storeExpense(expenseData);
+        expenseCntx.addExpense({...expenseData, id: id});
+      }
+    } catch (error) {
+      alert('Please try Again');
     }
     navigation.goBack();
   }

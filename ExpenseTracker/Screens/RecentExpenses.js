@@ -14,17 +14,17 @@ function RecentExpense() {
   useEffect(() => {
     async function getExpenses() {
       setisLoading(true);
-      try { 
-      const expenses = await fetchExpenses();
-      setisLoading(false);
-      expenseCntx.setExpenses(expenses);
+      try {
+        const expenses = await fetchExpenses();
+        setisLoading(false);
+        expenseCntx.setExpenses(expenses);
       } catch (error) {
-        alert('Please try again')
+        alert('Please try again');
       }
       // setFetchedExpense(expense);
     }
     getExpenses();
-  }, []);
+  },[]);
   const recentExpenses = expenseCntx.expenses.filter(function (expense) {
     // const recentExpenses = fetchedExpenses.filter(function (expense) {
     const today = new Date();

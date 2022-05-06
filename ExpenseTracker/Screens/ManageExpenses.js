@@ -1,32 +1,34 @@
-import React, {useLayoutEffect, useContext} from 'react';
+import React, {useLayoutEffect, useContext, useState} from 'react';
 import {Text, View, Pressable, StyleSheet} from 'react-native';
 // import {IconButton} from 'react-native-paper';
 import GlobalColor from '../constants/style';
-import Button from '../Components/UI/Button';
 import {ExpenseContext} from '../store/expenses-context';
 import ExpenseForm from '../Components/ManageExpense/ExpenseForm';
-import { storeExpense, updateExpense, deleteExpense } from '../util/https';
+import {storeExpense, updateExpense, deleteExpense} from '../util/https';
+import LoadingOverlay from '../Components/UI/LoadingOverLay';
 
 function ManageExpenses({route, navigation}) {
   const expenseCntx = useContext(ExpenseContext);
-
+  const [isUpdating, setUpdating] = useState(false);
   const editedExpenseId = route.params?.id;
   const isEditing = !!editedExpenseId;
   const selectedExpense = expenseCntx.expenses.find(
     expense => expense.id === editedExpenseId,
   );
   useLayoutEffect(() => {
-    navigation.setOptions({ 
+    navigation.setOptions({
       title: isEditing ? 'Edit Expense' : 'Add Expense',
     });
   }, [navigation, isEditing]);
 
   async function deleteExpenseHander() {
+    setUpdating(true);
     await deleteExpense(editedExpenseId);
     expenseCntx.deleteExpense({id: editedExpenseId});
     navigation.goBack();
   }
   async function confirmHandler(expenseData) {
+    setUpdating(true);
     if (isEditing) {
       console.log('do update');
       expenseCntx.updateExpense(editedExpenseId, expenseData);
@@ -39,6 +41,9 @@ function ManageExpenses({route, navigation}) {
   }
   function cancelExpenseHandler() {
     navigation.goBack();
+  }
+  if (isUpdating) {
+    return <LoadingOverlay />;
   }
   return (
     <View style={styles.root}>

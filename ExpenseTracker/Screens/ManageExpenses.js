@@ -5,7 +5,7 @@ import GlobalColor from '../constants/style';
 import Button from '../Components/UI/Button';
 import {ExpenseContext} from '../store/expenses-context';
 import ExpenseForm from '../Components/ManageExpense/ExpenseForm';
-import { storeExpense } from '../util/https';
+import { storeExpense, updateExpense, deleteExpense } from '../util/https';
 
 function ManageExpenses({route, navigation}) {
   const expenseCntx = useContext(ExpenseContext);
@@ -16,22 +16,24 @@ function ManageExpenses({route, navigation}) {
     expense => expense.id === editedExpenseId,
   );
   useLayoutEffect(() => {
-    navigation.setOptions({
+    navigation.setOptions({ 
       title: isEditing ? 'Edit Expense' : 'Add Expense',
     });
   }, [navigation, isEditing]);
 
-  function deleteExpenseHander() {
+  async function deleteExpenseHander() {
+    await deleteExpense(editedExpenseId);
     expenseCntx.deleteExpense({id: editedExpenseId});
     navigation.goBack();
   }
-  function confirmHandler(expenseData) {
+  async function confirmHandler(expenseData) {
     if (isEditing) {
       console.log('do update');
       expenseCntx.updateExpense(editedExpenseId, expenseData);
+      await updateExpense(editedExpenseId, expenseData);
     } else {
-      storeExpense(expenseData);
-      expenseCntx.addExpense(expenseData);
+      const id = await storeExpense(expenseData);
+      expenseCntx.addExpense({...expenseData, id: id});
     }
     navigation.goBack();
   }
@@ -44,7 +46,7 @@ function ManageExpenses({route, navigation}) {
         submitButtonLabel={isEditing ? 'Update' : 'Add'}
         onCancel={cancelExpenseHandler}
         onSubmit={confirmHandler}
-        defaultValues={selectedExpense}
+        defaultValues={isEditing ? selectedExpense : ''}
       />
       {isEditing && (
         <Pressable onPress={deleteExpenseHander}>

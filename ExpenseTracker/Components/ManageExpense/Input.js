@@ -9,7 +9,7 @@ function Input({label, isValid, style, textInputConfig}) {
     inputStyles.push(styles.inputMultiline);
   }
   if (!isValid) {
-    inputStyles.push(styles.invalidInput)
+    inputStyles.push(styles.invalidInput);
   }
   return (
     <View style={[styles.inputContainer, style]}>
